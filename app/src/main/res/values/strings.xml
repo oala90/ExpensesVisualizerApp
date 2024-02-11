@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ExpensesVisualizerApp</string>
+    <string name="title_activity_person_details">PersonDetailsActivity</string>
+</resources>

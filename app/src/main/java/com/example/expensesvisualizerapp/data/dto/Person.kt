@@ -6,7 +6,7 @@ import com.example.expensesvisualizerapp.data.dto.Expenses
 
 @Entity(tableName = "persons")
 data class Person(
-    @PrimaryKey(autoGenerate = true) val id: Long,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0L,
     val name: String,
     val age: Int,
     val position: String,

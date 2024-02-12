@@ -6,10 +6,13 @@ import com.example.expensesvisualizerapp.data.dto.Person
 import com.example.expensesvisualizerapp.domain.entities.PersonEntity
 import com.example.expensesvisualizerapp.domain.usecases.person.GetAllPeopleUseCase
 import com.example.expensesvisualizerapp.domain.usecases.person.InsertPersonUseCase
+import com.example.expensesvisualizerapp.presentation.actions.PersonActions
+import com.example.expensesvisualizerapp.presentation.form.PersonForm
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,18 +20,41 @@ import javax.inject.Inject
 class PersonViewModel @Inject constructor(
     private val insertPersonUseCase: InsertPersonUseCase,
     private val getAllPeopleUseCase: GetAllPeopleUseCase
-): ViewModel() {
-
-    private val _personObject = MutableStateFlow<Person?>(null)
-    val personObject = _personObject.asStateFlow()
+) : ViewModel() {
 
     private val _personList = MutableStateFlow<List<PersonEntity>?>(null)
     val personList = _personList.asStateFlow()
 
-    val name = MutableStateFlow("")
-    val age = MutableStateFlow(0)
-    val position = MutableStateFlow("")
-    val budget = MutableStateFlow(0)
+    private val _personForm = MutableStateFlow(PersonForm())
+    val personForm = _personForm.asStateFlow()
+
+    fun onFieldChange(action: PersonActions) {
+        when (action) {
+            is PersonActions.OnNameChanged -> {
+                _personForm.update {
+                    it.copy(name = action.value)
+                }
+            }
+
+            is PersonActions.OnAgeChanged -> {
+                _personForm.update {
+                    it.copy(age = action.value)
+                }
+            }
+
+            is PersonActions.OnPositionChanged -> {
+                _personForm.update {
+                    it.copy(position = action.value)
+                }
+            }
+
+            is PersonActions.OnBudgetChanged -> {
+                _personForm.update {
+                    it.copy(budget = action.value)
+                }
+            }
+        }
+    }
 
     fun getAllPeople() = viewModelScope.launch(Dispatchers.Main) {
         getAllPeopleUseCase().fold(
@@ -40,22 +66,15 @@ class PersonViewModel @Inject constructor(
         )
     }
 
-    fun insertPersonDetails(person: Person?) = viewModelScope.launch(Dispatchers.Main) {
+    fun insertPersonDetails() = viewModelScope.launch(Dispatchers.Main) {
+        val personForm = _personForm.value
         val personObject = Person(
-            id = 0L,
-            name = name.value,
-            age = age.value,
-            position = position.value,
-            budget = budget.value,
-//            expenses = emptyList()
+            name = personForm.name,
+            age = personForm.age,
+            position = personForm.position,
+            budget = personForm.budget
         )
 
-        insertPersonUseCase().fold(
-            {
-                _personObject.value = personObject
-            }, {
-                _personObject.value = null
-            }
-        )
+        insertPersonUseCase(input = personObject).fold()
     }
 }

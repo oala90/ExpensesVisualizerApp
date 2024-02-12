@@ -10,8 +10,8 @@ import javax.inject.Inject
 class GetAllPeopleUseCase @Inject constructor(
     private val repository: PersonRepository,
     background: CoroutineDispatcher
-): UseCase<List<PersonEntity>, Person>(background) {
-        override suspend fun run(input: Person?): List<PersonEntity> {
+): UseCase<List<PersonEntity>, Unit>(background) {
+        override suspend fun run(input: Unit?): List<PersonEntity> {
             return repository.getAllPeople()
         }
 }

@@ -15,26 +15,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.expensesvisualizerapp.presentation.actions.PersonActions
 
 @Composable
 fun PersonDetailsView(
-    onNameChanged: (String) -> Unit,
+    onNameChanged: (PersonActions.OnNameChanged) -> Unit,
     currentName: String,
-    onAgeChanged: (Int) -> Unit,
+    onAgeChanged: (PersonActions.OnAgeChanged) -> Unit,
     ageChanged: Int,
-    onPositionChanged: (String) -> Unit,
+    onPositionChanged: (PersonActions.OnPositionChanged) -> Unit,
     positionChanged: String,
-    onBudgetChanged: (Int) -> Unit,
+    onBudgetChanged: (PersonActions.OnBudgetChanged) -> Unit,
     budgetChanged: Int,
     onAddOrUpdate: () -> Unit
 ) {
-    Column (modifier = Modifier
-        .fillMaxWidth()
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
     ) {
         TextField(
             value = currentName,
             onValueChange = {
-                onNameChanged(it)
+                onNameChanged(PersonActions.OnNameChanged(it))
             },
             label = {
                 Text(text = "Full Name")
@@ -44,7 +46,7 @@ fun PersonDetailsView(
         TextField(
             value = ageChanged.toString(),
             onValueChange = {
-                onAgeChanged(it.toInt())
+                onAgeChanged(PersonActions.OnAgeChanged(it.toInt()))
             },
             label = {
                 Text(text = "Age")
@@ -54,7 +56,7 @@ fun PersonDetailsView(
         TextField(
             value = positionChanged,
             onValueChange = {
-                onPositionChanged(it)
+                onPositionChanged(PersonActions.OnPositionChanged(it))
             },
             label = {
                 Text(text = "Position")
@@ -64,7 +66,7 @@ fun PersonDetailsView(
         TextField(
             value = budgetChanged.toString(),
             onValueChange = {
-                onBudgetChanged(it.toInt())
+                onBudgetChanged(PersonActions.OnBudgetChanged(it.toInt()))
             },
             label = {
                 Text(text = "Budget")
@@ -84,7 +86,7 @@ fun PersonDetailsView(
         Row {
             Button(
                 onClick = {
-                    onAddOrUpdate
+                    onAddOrUpdate()
                 }
             ) {
                 Text(text = "Update")

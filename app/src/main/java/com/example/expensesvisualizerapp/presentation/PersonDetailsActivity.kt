@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.example.expensesvisualizerapp.presentation.ui.theme.ExpensesVisualizerAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,38 +23,23 @@ class PersonDetailsActivity : ComponentActivity() {
 
         setContent {
             ExpensesVisualizerAppTheme {
-                // A surface container using the 'background' color from the theme
-                val name = myViewModel.name.collectAsState()
-                val age = myViewModel.age.collectAsState()
-                val position = myViewModel.position.collectAsState()
-                val budget = myViewModel.budget.collectAsState()
+
+                val personForm by myViewModel.personForm.collectAsState()
 
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     PersonDetailsView(
-                        onNameChanged = {
-                            myViewModel.name.value = it
-                                        },
-                        currentName = name.value,
-                        onAgeChanged = {
-                            myViewModel.age.value = it
-                        },
-                        ageChanged = age.value,
-                        onPositionChanged = {
-                            myViewModel.position.value = it
-                        },
-                        positionChanged = position.value,
-                        onBudgetChanged = {
-                            myViewModel.budget.value = it
-                        },
-                        budgetChanged = budget.value,
-                        onAddOrUpdate = {
-                            myViewModel.insertPersonDetails(
-                                null
-                            )
-                        }
+                        onNameChanged = myViewModel::onFieldChange,
+                        currentName =personForm.name,
+                        onAgeChanged = myViewModel::onFieldChange,
+                        ageChanged = personForm.age,
+                        onPositionChanged = myViewModel::onFieldChange,
+                        positionChanged = personForm.position,
+                        onBudgetChanged = myViewModel::onFieldChange,
+                        budgetChanged = personForm.budget,
+                        onAddOrUpdate = myViewModel::insertPersonDetails
                     )
                 }
             }

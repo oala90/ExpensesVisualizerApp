@@ -1,5 +1,6 @@
 package com.example.expensesvisualizerapp.presentation
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,7 +15,7 @@ import com.example.expensesvisualizerapp.domain.entities.PersonEntity
 @Composable
 fun PersonListView(
     onViewList: List<PersonEntity>,
-    openPersonActivity: () -> Unit,
+    openPersonActivity: (PersonEntity?,Boolean) -> Unit,
 ) {
     Column {
         if (onViewList.isEmpty()) {
@@ -25,18 +26,15 @@ fun PersonListView(
         } else {
             LazyColumn {
                 items(onViewList) { person ->
-                    Text(text = person.name)
+                    Text(text = person.name!!, Modifier.clickable {
+                        openPersonActivity(person, true)
+                    })
                 }
             }
         }
 
         Button(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(horizontal = 16.dp, vertical = 8.dp) // Adjust padding for the Button
-//            .height(10.dp) // Set the height of the Button
-//            .width(200.dp), // Set the width of the Button
-            onClick = { openPersonActivity() }
+            onClick = { openPersonActivity(null, false) }
         ) {
             Text(text = "Add new person registration")
         }

@@ -1,5 +1,6 @@
 package com.example.expensesvisualizerapp.presentation
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,6 +11,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import com.example.expensesvisualizerapp.domain.entities.PersonEntity
 import com.example.expensesvisualizerapp.presentation.ui.theme.ExpensesVisualizerAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,7 +22,10 @@ class PersonDetailsActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val onUpdate = intent.getBooleanExtra("onUpdate", false)
+        val person = intent.getParcelableExtra<PersonEntity>("personEntity")
 
+        myViewModel.setPersonForm(person)
         setContent {
             ExpensesVisualizerAppTheme {
 
@@ -32,17 +37,28 @@ class PersonDetailsActivity : ComponentActivity() {
                 ) {
                     PersonDetailsView(
                         onNameChanged = myViewModel::onFieldChange,
-                        currentName =personForm.name,
+                        currentName = personForm.name ?: "",
                         onAgeChanged = myViewModel::onFieldChange,
                         ageChanged = personForm.age,
                         onPositionChanged = myViewModel::onFieldChange,
-                        positionChanged = personForm.position,
+                        positionChanged = personForm.position ?: "",
                         onBudgetChanged = myViewModel::onFieldChange,
                         budgetChanged = personForm.budget,
-                        onAddOrUpdate = myViewModel::insertPersonDetails
+                        onAddOrUpdate = {
+                            myViewModel.onAddOrUpdateFun(onUpdate)
+                            setResult(Activity.RESULT_OK)
+                            finish()
+                        },
+                        onUpdate = onUpdate
                     )
                 }
             }
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        // Finish the activity to navigate back to the previous activity in the activity stack
+        finish()
     }
 }

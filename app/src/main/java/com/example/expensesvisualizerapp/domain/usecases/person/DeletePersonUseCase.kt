@@ -7,7 +7,7 @@ import com.example.expensesvisualizerapp.domain.usecases.base.UseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
-class InsertPersonUseCase @Inject constructor(
+class DeletePersonUseCase @Inject constructor(
     private val repository: PersonRepository,
     background: CoroutineDispatcher
 ): UseCase<Unit, PersonEntity>(background) {

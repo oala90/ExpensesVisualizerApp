@@ -1,8 +1,10 @@
 package com.example.expensesvisualizerapp.di
 
 import com.example.expensesvisualizerapp.domain.repositories.PersonRepository
+import com.example.expensesvisualizerapp.domain.usecases.person.DeletePersonUseCase
 import com.example.expensesvisualizerapp.domain.usecases.person.GetAllPeopleUseCase
 import com.example.expensesvisualizerapp.domain.usecases.person.InsertPersonUseCase
+import com.example.expensesvisualizerapp.domain.usecases.person.UpdatePersonUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,4 +28,19 @@ object DomainModule {
         repository: PersonRepository,
         background: CoroutineDispatcher
     ) = InsertPersonUseCase(repository, background)
+
+    @Singleton
+    @Provides
+    fun provideUpdatePersonUseCase(
+        repository: PersonRepository,
+        background: CoroutineDispatcher
+    ) = UpdatePersonUseCase(repository, background)
+
+    @Singleton
+    @Provides
+    fun provideDeletePersonUseCase(
+        repository: PersonRepository,
+        background: CoroutineDispatcher
+    ) = DeletePersonUseCase(repository, background)
+
 }

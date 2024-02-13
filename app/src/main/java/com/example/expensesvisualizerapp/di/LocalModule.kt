@@ -1,5 +1,6 @@
 package com.example.expensesvisualizerapp.di
 
+import com.example.expensesvisualizerapp.data.dao.ExpensesDao
 import com.example.expensesvisualizerapp.data.dao.PersonDao
 import com.example.expensesvisualizerapp.data.local.database.AppDataBase
 import dagger.Module
@@ -16,5 +17,9 @@ object LocalModule {
     @Singleton
     @Provides
     fun providePersonDao(appDatabase: AppDataBase): PersonDao = appDatabase.personDao()
+
+    @Singleton
+    @Provides
+    fun provideExpensesDao(appDatabase: AppDataBase): ExpensesDao = appDatabase.expensesDao()
 
 }

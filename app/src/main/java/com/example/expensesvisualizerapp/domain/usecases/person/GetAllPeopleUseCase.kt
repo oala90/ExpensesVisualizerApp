@@ -1,10 +1,10 @@
 package com.example.expensesvisualizerapp.domain.usecases.person
 
-import com.example.expensesvisualizerapp.data.dto.Person
 import com.example.expensesvisualizerapp.domain.entities.PersonEntity
 import com.example.expensesvisualizerapp.domain.repositories.PersonRepository
 import com.example.expensesvisualizerapp.domain.usecases.base.UseCase
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
 class GetAllPeopleUseCase @Inject constructor(
@@ -12,6 +12,6 @@ class GetAllPeopleUseCase @Inject constructor(
     background: CoroutineDispatcher
 ): UseCase<List<PersonEntity>, Unit>(background) {
         override suspend fun run(input: Unit?): List<PersonEntity> {
-            return repository.getAllPeople()
+            return repository.getAllPeople().firstOrNull() ?: emptyList()
         }
 }

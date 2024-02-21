@@ -1,42 +1,45 @@
 package com.example.expensesvisualizerapp.presentation
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.expensesvisualizerapp.presentation.actions.ExpensesActions
 
 @Composable
-fun ExpensesDetailsView() {
+fun ExpensesDetailsView(
+    onDescriptionChanged: (ExpensesActions.OnDescriptionChanged) -> Unit,
+    currentDescription: String,
+    onAmountChanged: (ExpensesActions.OnAmountChanged) -> Unit,
+    currentAmount: Int,
+    addNewExpenses: () -> Unit
+) {
     Column {
         TextField(
-            value = "",
-            onValueChange = {},
+            value = currentDescription,
+            onValueChange = {
+                onDescriptionChanged(ExpensesActions.OnDescriptionChanged(it))
+            },
             label = {
                 Text(text = "Description")
             }
         )
 
         TextField(
-            value = "",
-            onValueChange = {},
+            value = currentAmount.toString(),
+            onValueChange = {
+                onAmountChanged(ExpensesActions.OnAmountChanged(it.toInt()))
+            },
             label = {
                 Text(text = "Amount")
             }
         )
 
-
         Row {
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = { addNewExpenses() }) {
                 Text(text = "Add new expense")
             }
         }
@@ -46,5 +49,10 @@ fun ExpensesDetailsView() {
 @Preview
 @Composable
 fun ExpensesDetailsViewPreview() {
-    ExpensesDetailsView()
+    ExpensesDetailsView(
+        {},
+        "",
+        {},
+        0,
+        {})
 }

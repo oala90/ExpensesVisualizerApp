@@ -15,20 +15,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.expensesvisualizerapp.presentation.actions.PersonActions
-import kotlinx.coroutines.Job
 
 @Composable
 fun PersonDetailsView(
     onNameChanged: (PersonActions.OnNameChanged) -> Unit,
     currentName: String,
     onAgeChanged: (PersonActions.OnAgeChanged) -> Unit,
-    ageChanged: Int,
+    ageChanged: Int?,
     onPositionChanged: (PersonActions.OnPositionChanged) -> Unit,
     positionChanged: String,
     onBudgetChanged: (PersonActions.OnBudgetChanged) -> Unit,
-    budgetChanged: Int,
+    budgetChanged: Int?,
     onAddOrUpdate: () -> Unit,
-    onUpdate: Boolean
+    onDelete: () -> Unit,
+    onUpdate: Boolean,
+    onExpensesList: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -74,15 +75,19 @@ fun PersonDetailsView(
             }
         )
 
-        Text(
-            text = "Expenses",
-            color = Color.White,
-            fontSize = 18.sp,
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { }
-                .background(color = MaterialTheme.colorScheme.secondaryContainer)
-        )
+        if(onUpdate) {
+            Text(
+                text = "Expenses",
+                color = Color.Black,
+                fontSize = 18.sp,
+                modifier = Modifier
+//                    .fillMaxWidth()
+                    .clickable {
+                        onExpensesList()
+                    }
+                    .background(color = MaterialTheme.colorScheme.secondaryContainer)
+            )
+        }
 
         Row {
             Button(
@@ -94,7 +99,7 @@ fun PersonDetailsView(
             }
 
             if(onUpdate) {
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = { onDelete() }) {
                     Text(text = "Delete")
                 }
             }
@@ -115,6 +120,8 @@ fun PersonDetailsViewPreview() {
         {},
         0,
         {},
-        true
+        {},
+        true,
+        {}
     )
 }

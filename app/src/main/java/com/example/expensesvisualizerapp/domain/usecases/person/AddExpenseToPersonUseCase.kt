@@ -6,12 +6,12 @@ import com.example.expensesvisualizerapp.domain.usecases.base.UseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
-class UpdatePersonUseCase @Inject constructor(
+class AddExpenseToPersonUseCase @Inject constructor(
     private val repository: PersonRepository,
     background: CoroutineDispatcher
 ): UseCase<Unit, PersonEntity>(background) {
     override suspend fun run(input: PersonEntity?) {
         requireNotNull(input){ "Person Must not be null" }
-        return repository.updatePerson(input)
+        return repository.saveExpenses(input)
     }
 }

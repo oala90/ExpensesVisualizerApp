@@ -1,6 +1,5 @@
 package com.example.expensesvisualizerapp.domain.usecases.person
 
-import com.example.expensesvisualizerapp.data.dto.Person
 import com.example.expensesvisualizerapp.domain.entities.PersonEntity
 import com.example.expensesvisualizerapp.domain.repositories.PersonRepository
 import com.example.expensesvisualizerapp.domain.usecases.base.UseCase

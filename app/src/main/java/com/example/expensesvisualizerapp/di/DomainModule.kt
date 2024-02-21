@@ -1,8 +1,10 @@
 package com.example.expensesvisualizerapp.di
 
 import com.example.expensesvisualizerapp.domain.repositories.PersonRepository
+import com.example.expensesvisualizerapp.domain.usecases.person.AddExpenseToPersonUseCase
 import com.example.expensesvisualizerapp.domain.usecases.person.DeletePersonUseCase
 import com.example.expensesvisualizerapp.domain.usecases.person.GetAllPeopleUseCase
+import com.example.expensesvisualizerapp.domain.usecases.person.GetPersonDetailsUseCase
 import com.example.expensesvisualizerapp.domain.usecases.person.InsertPersonUseCase
 import com.example.expensesvisualizerapp.domain.usecases.person.UpdatePersonUseCase
 import dagger.Module
@@ -24,6 +26,14 @@ object DomainModule {
 
     @Singleton
     @Provides
+    fun provideAddExpenseToPersonUseCase(
+        repository: PersonRepository,
+        background: CoroutineDispatcher
+    ) = AddExpenseToPersonUseCase(repository, background)
+
+
+    @Singleton
+    @Provides
     fun provideInsertPersonUseCase(
         repository: PersonRepository,
         background: CoroutineDispatcher
@@ -42,5 +52,12 @@ object DomainModule {
         repository: PersonRepository,
         background: CoroutineDispatcher
     ) = DeletePersonUseCase(repository, background)
+
+    @Singleton
+    @Provides
+    fun provideGetPersonDetailsUseCase(
+        repository: PersonRepository,
+        background: CoroutineDispatcher
+    ) = GetPersonDetailsUseCase(repository, background)
 
 }

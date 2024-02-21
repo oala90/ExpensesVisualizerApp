@@ -1,9 +1,7 @@
 package com.example.expensesvisualizerapp.data.dto
 
-import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "expenses")
 data class Expenses(
     @PrimaryKey(autoGenerate = true) val id: Long = 0L,
     val personId: Long,

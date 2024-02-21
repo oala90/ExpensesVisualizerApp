@@ -4,24 +4,28 @@ import com.example.expensesvisualizerapp.data.dto.Expenses
 import com.example.expensesvisualizerapp.data.dto.Person
 import com.example.expensesvisualizerapp.domain.entities.ExpensesEntity
 import com.example.expensesvisualizerapp.domain.entities.PersonEntity
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
-fun List<Person>.toEntity(): List<PersonEntity> {
-    return this.map { value ->
-        PersonEntity(
-            id = value.id,
-            name = value.name,
-            age = value.age,
-            position = value.position,
-            budget =value.budget,
-            expenses = value.expenses?.map {
-                ExpensesEntity(
-                    id = it.id,
-                    personId = it.personId,
-                    description = it.description,
-                    amount = it.amount
-                )
-            }
-        )
+fun Flow<List<Person>>.toEntity(): Flow<List<PersonEntity>> {
+    return this.map { people ->
+        people.map { person ->
+            PersonEntity(
+                id = person.id,
+                name = person.name,
+                age = person.age,
+                position = person.position,
+                budget = person.budget,
+                expenses = person.expenses.map { expense ->
+                    ExpensesEntity(
+                        id = expense.id,
+                        personId = expense.personId,
+                        description = expense.description,
+                        amount = expense.amount
+                    )
+                }
+            )
+        }
     }
 }
 
@@ -32,7 +36,7 @@ fun PersonEntity.toDTO(): Person {
         age = this.age,
         position = this.position,
         budget = this.budget,
-        expenses = this.expenses?.map {
+        expenses = this.expenses.map {
             Expenses(
                 id = it.id,
                 personId = it.personId,
@@ -41,4 +45,24 @@ fun PersonEntity.toDTO(): Person {
             )
         }
     )
+}
+
+fun Flow<Person>.toPersonEntity(): Flow<PersonEntity> {
+    return this.map { person ->
+        PersonEntity(
+            id = person.id,
+            name = person.name,
+            age = person.age,
+            position = person.position,
+            budget = person.budget,
+            expenses = person.expenses.map {
+                ExpensesEntity(
+                    id = it.id,
+                    personId = it.personId,
+                    description = it.description,
+                    amount = it.amount
+                )
+            }
+        )
+    }
 }

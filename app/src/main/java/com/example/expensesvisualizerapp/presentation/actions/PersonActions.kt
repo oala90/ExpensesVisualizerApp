@@ -1,6 +1,5 @@
 package com.example.expensesvisualizerapp.presentation.actions
 
-import com.example.expensesvisualizerapp.data.dto.Expenses
 import com.example.expensesvisualizerapp.domain.entities.ExpensesEntity
 
 sealed interface PersonActions {

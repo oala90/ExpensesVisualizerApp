@@ -1,6 +1,5 @@
 package com.example.expensesvisualizerapp.domain.usecases.person
 
-import com.example.expensesvisualizerapp.data.dto.Person
 import com.example.expensesvisualizerapp.domain.entities.PersonEntity
 import com.example.expensesvisualizerapp.domain.repositories.PersonRepository
 import com.example.expensesvisualizerapp.domain.usecases.base.UseCase
@@ -13,6 +12,6 @@ class DeletePersonUseCase @Inject constructor(
 ): UseCase<Unit, PersonEntity>(background) {
     override suspend fun run(input: PersonEntity?) {
         requireNotNull(input){ "Person Must not be null" }
-        return repository.insertPerson(input)
+        return repository.deletePerson(input)
     }
 }

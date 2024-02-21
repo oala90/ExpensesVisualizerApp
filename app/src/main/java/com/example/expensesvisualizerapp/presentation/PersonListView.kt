@@ -9,6 +9,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.expensesvisualizerapp.domain.entities.PersonEntity
 
@@ -26,17 +27,29 @@ fun PersonListView(
         } else {
             LazyColumn {
                 items(onViewList) { person ->
-                    Text(text = person.name!!, Modifier.clickable {
-                        openPersonActivity(person, true)
-                    })
+
+                    Text(
+                        text = "id: ${person.id} Name: ${person.name} ",
+                        Modifier.clickable {
+                            openPersonActivity(person, true)
+                        }
+                    )
                 }
             }
         }
 
         Button(
-            onClick = { openPersonActivity(null, false) }
+            onClick = { openPersonActivity(PersonEntity(), false) }
         ) {
             Text(text = "Add new person registration")
         }
+    }
+}
+
+@Preview
+@Composable
+fun PersonListViewPreview() {
+    PersonListView(emptyList()) {
+            _, _ ->
     }
 }

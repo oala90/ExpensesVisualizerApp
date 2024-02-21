@@ -1,4 +1,4 @@
-package com.example.expensesvisualizerapp.data.local
+package com.example.expensesvisualizerapp.data.local.converter
 
 import androidx.room.TypeConverter
 import com.example.expensesvisualizerapp.data.dto.Expenses

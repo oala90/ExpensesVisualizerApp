@@ -9,6 +9,6 @@ data class Person(
     val name: String,
     val age: Int,
     val position: String,
-    val budget: Int,
+    val budget: Double,
     val expenses: List<Expenses> = emptyList()
 )

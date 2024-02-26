@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.expensesvisualizerapp.data.dao.PersonDao
+import com.example.expensesvisualizerapp.data.dto.Expenses
 import com.example.expensesvisualizerapp.data.dto.Person
 import com.example.expensesvisualizerapp.data.local.converter.Converter
 

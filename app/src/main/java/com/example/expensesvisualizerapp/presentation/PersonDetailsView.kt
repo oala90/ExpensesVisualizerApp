@@ -53,9 +53,10 @@ fun PersonDetailsView(
     onExpensesList: () -> Unit,
     expensesListFirstElement: List<ExpensesEntity>,
     formSubmit: Boolean,
-    isFormSubmit: (Boolean) -> Unit
+    isFormSubmit: (Boolean) -> Unit,
 ) {
     var isDialogVisible by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -66,12 +67,12 @@ fun PersonDetailsView(
             onValueChange = {
                 if(it.length <= 30) {
                     onNameChanged(PersonActions.OnNameChanged(it))
+                    isFormSubmit(false)
                     onValidateName(it)
                 }
             },
             maxLines = 1,
             visualTransformation = DigitLimitTransformation(30),
-//            isError = validateName is ValidationState.Invalid,
             modifier = Modifier
                 .background
                     (
@@ -95,10 +96,10 @@ fun PersonDetailsView(
             onValueChange = {
                 if(it.length <= 3) {
                     onAgeChanged(PersonActions.OnAgeChanged(it))
+                    isFormSubmit(false)
                     onValidateAge(it)
                 }
             },
-//            isError = validateAge is ValidationState.Invalid,
             maxLines = 1,
             modifier = Modifier
                 .padding(vertical = 8.dp)
@@ -127,12 +128,12 @@ fun PersonDetailsView(
             onValueChange = {
                 if(it.length <= 15) {
                     onPositionChanged(PersonActions.OnPositionChanged(it))
+                    isFormSubmit(false)
                     onValidatePosition(it)
                 }
             },
             maxLines = 1,
             visualTransformation = DigitLimitTransformation(15),
-//            isError = validatePosition is ValidationState.Invalid,
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .background(
@@ -157,13 +158,13 @@ fun PersonDetailsView(
             onValueChange = {
                 if(it.length <= 10) {
                     onBudgetChanged(PersonActions.OnBudgetChanged(it))
+                    isFormSubmit(false)
                     onValidateBudget(it)
                 }
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             maxLines = 1,
             visualTransformation = DigitLimitTransformation(10),
-//            isError = validateBudget is ValidationState.Invalid,
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .background(
@@ -223,7 +224,6 @@ fun PersonDetailsView(
                 ShowMessageDialog(
                     message = "Fields contain errors. Please fix them",
                     onDismiss = {
-                        isFormSubmit(false)
                         isDialogVisible = false
                     }
                 )

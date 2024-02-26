@@ -47,9 +47,6 @@ class PersonViewModel @Inject constructor(
     private val _expenseForm = MutableStateFlow(ExpensesForm())
     val expenseForm = _expenseForm.asStateFlow()
 
-    private val _selectedExpense = MutableStateFlow(ExpensesEntity())
-    val selectedExpense = _selectedExpense.asStateFlow()
-
     private val _selectedPerson = MutableStateFlow(PersonEntity())
     val selectedPerson = _selectedPerson.asStateFlow()
 
@@ -86,10 +83,6 @@ class PersonViewModel @Inject constructor(
     fun submitForm(flag: Boolean) {
         _isFormSubmitted.value = flag
     }
-
-//    fun resetFormSubmission() {
-//        _isFormSubmitted.value = false
-//    }
 
     fun setSelectedPerson(person: PersonEntity) {
         _selectedPerson.value = person
@@ -148,7 +141,7 @@ class PersonViewModel @Inject constructor(
         )
     }
 
-    fun resetButtonEnabledState(isUpdate: Boolean) {
+    private fun resetButtonEnabledState(isUpdate: Boolean) {
         _isButtonEnabled.value = isUpdate
     }
 
@@ -190,7 +183,6 @@ class PersonViewModel @Inject constructor(
     fun setPersonForm(isUpdate: Boolean, person: PersonEntity) {
         if (!isUpdate) {
             _personForm.value = PersonForm()
-//            addUpdatePersonButtonEnabledState()
         } else {
             _personForm.value = PersonForm(
                 id = person.id,
@@ -200,7 +192,6 @@ class PersonViewModel @Inject constructor(
                 budget = person.budget.toString(),
                 expenses = person.expenses
             )
-//            addUpdatePersonButtonEnabledState()
         }
     }
 
@@ -345,10 +336,10 @@ class PersonViewModel @Inject constructor(
                     validateAge(it.age.toString())
                     validatePosition(it.position)
                     validateBudget(it.budget.toString())
-                    resetButtonEnabledState(true) // Ensure button state is updated after validation
+                    resetButtonEnabledState(true)
                 } else {
-                    resetValidationStates() // Reset validation states for new person entry
-                    resetButtonEnabledState(false) // Ensure button state is updated after resetting validation
+                    resetValidationStates()
+                    resetButtonEnabledState(false)
                 }
             },
             {}

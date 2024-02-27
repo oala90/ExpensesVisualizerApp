@@ -222,7 +222,7 @@ fun PersonDetailsView(
             }
             if(isDialogVisible) {
                 ShowMessageDialog(
-                    message = "Fields contain errors. Please fix them",
+                    message = "Text Fields contain errors. Please fix them",
                     onDismiss = {
                         isDialogVisible = false
                     }
@@ -231,7 +231,11 @@ fun PersonDetailsView(
 
             if (onUpdate) {
                 Button(
-                    onClick = { onDelete() },
+                    onClick = {
+                        if(onButtonEnabled) {
+                            onDelete()
+                        }
+                    },
                     modifier = Modifier.padding(end = 8.dp)
                 ) {
                     Text(text = "Delete")

@@ -77,7 +77,6 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
 
-
                                 val personFormState by myViewModel.personForm.collectAsState()
                                 val ageValidation by myViewModel.ageValidationState.collectAsState()
                                 val budgetValidation by myViewModel.budgetValidationState.collectAsState()
@@ -160,11 +159,13 @@ class MainActivity : ComponentActivity() {
                                 val isUpdate = navBackStackEntry.arguments?.getBoolean("isUpdate") ?: false
 
                                 LaunchedEffect(Unit) {
+                                    myViewModel.submitExpenseForm(false)
                                     if(isUpdate) {
                                         myViewModel.getPersonDetails(true, personId)
                                         myViewModel.getExpenseOfPerson(true, expenseId)
                                     } else {
                                         myViewModel.setExpensesPersonForm(false, ExpensesEntity())
+                                        myViewModel.resetExpenseValidationStates()
                                     }
                                 }
 
@@ -172,6 +173,7 @@ class MainActivity : ComponentActivity() {
                                 val descriptionValidation by myViewModel.descriptionExpenseValidationState.collectAsState()
                                 val amountValidation by myViewModel.amountExpenseValidationState.collectAsState()
                                 val isButtonExpenseEnabled by myViewModel.isButtonExpenseEnabled.collectAsState()
+                                val isFormExpenseSubmitted by myViewModel.isFormExpenseSubmitted.collectAsState()
 
 
                                 ExpensesDetailsView(
@@ -191,7 +193,9 @@ class MainActivity : ComponentActivity() {
                                             myViewModel.updateExpenseInPersonFunction(myViewModel.selectedPerson.value)
                                         }
                                         navController.popBackStack()
-                                    }
+                                    },
+                                    formSubmit = isFormExpenseSubmitted,
+                                    isFormSubmit = { myViewModel.submitExpenseForm(it) }
                                 )
                             }
                         }

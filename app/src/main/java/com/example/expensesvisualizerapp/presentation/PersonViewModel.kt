@@ -77,11 +77,18 @@ class PersonViewModel @Inject constructor(
     private val _isFormSubmitted = MutableStateFlow(false)
     val isFormSubmitted = _isFormSubmitted.asStateFlow()
 
+    private val _isFormExpenseSubmitted = MutableStateFlow(false)
+    val isFormExpenseSubmitted = _isFormExpenseSubmitted.asStateFlow()
+
     private val _personId = MutableStateFlow<Long?>(0L)
     val personId = _personId.asStateFlow()
 
     fun submitForm(flag: Boolean) {
         _isFormSubmitted.value = flag
+    }
+
+    fun submitExpenseForm(flag: Boolean) {
+        _isFormExpenseSubmitted.value = flag
     }
 
     fun setSelectedPerson(person: PersonEntity) {
@@ -178,6 +185,11 @@ class PersonViewModel @Inject constructor(
         validateAge("")
         validatePosition("")
         validateBudget("")
+    }
+
+    fun resetExpenseValidationStates() {
+        validateDescription("")
+        validateAmount("")
     }
 
     fun setPersonForm(isUpdate: Boolean, person: PersonEntity) {
@@ -322,7 +334,7 @@ class PersonViewModel @Inject constructor(
         )
 
         deletePersonUseCase(input = personObject).fold(
-            { getAllPeople() }, {}
+            {}, {}
         )
     }
 

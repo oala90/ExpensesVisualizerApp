@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 fun ShowMessageDialog(message: String, onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = { onDismiss() },
-        title = { Text(text = "Message") },
+        title = { Text(text = "Error") },
         text = { Text(text = message) },
         confirmButton = {
             Button(
